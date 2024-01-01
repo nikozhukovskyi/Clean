@@ -81,10 +81,11 @@ public class Controller {
         Runtime rs = Runtime.getRuntime();
         try {
             rs.exec("cmd.exe /C nircmd.exe sendkeypress ctrl+f1");
-            iNFORM("Ощищено тимчасові файли");
+            iNFORM("Ощищено тимчасові файли, nircmd.exe - потрібно інсталювати");
         } catch (IOException e) {
             errorAlert(e.getMessage());
         }
+        temp();
     }
 
     @FXML
@@ -109,7 +110,6 @@ public class Controller {
         }
     }
 
-    @FXML
     void temp() {
         Runtime rs = Runtime.getRuntime();
         try {
@@ -118,6 +118,25 @@ public class Controller {
         } catch (IOException | InterruptedException e) {
             errorAlert(e.getMessage());
         }
+    }
+
+    @FXML
+    void close_all_prog_work(MouseEvent event) {
+
+        Runtime rs = Runtime.getRuntime();
+        try {
+            rs.exec("cmd.exe /C " +
+                    "taskkill /f /fi \"imagename eq AnyDesk.exe\" /fi \"username eq %username%\" &&" +
+                    "taskkill /f /fi \"imagename eq Skype.exe\" /fi \"username eq %username%\" &&" +
+                    "taskkill /f /fi \"imagename eq Telegram.exe\" /fi \"username eq %username%\" &&" +
+                    "taskkill /f /fi \"imagename eq mstsc.exe\" /fi \"username eq %username%\" &&" +
+                    "taskkill /f /fi \"imagename eq TeamViewer.exe\" /fi \"username eq %username%\" &&" +
+                    "taskkill /f /fi \"imagename eq TeamViewer*\" /fi \"username eq %username%\"").waitFor();
+            iNFORM("Закрито, AnyDesk, Skype, Telegram, mstsc, TeamViewer. ");
+        } catch (IOException | InterruptedException e) {
+            errorAlert(e.getMessage());
+        }
+
     }
 
 
